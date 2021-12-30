@@ -4,7 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ID/Android/Edx-Introduccion_Programacion_Android/Localizacion/app/src/main/res/layout/activity_main.xml" value="0.12360688956433637" />
+        <entry key="..\:/ID/Android/FDGC_Projects/GC9KT3A/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2890625" />
+        <entry key="..\:/ID/Android/FDGC_Projects/GC9KT3A/app/src/main/res/drawable/ic_geologo.xml" value="0.2890625" />
+        <entry key="..\:/ID/Android/FDGC_Projects/GC9KT3A/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2890625" />
         <entry key="..\:/ID/Android/FDGC_Projects/GC9KT3A/app/src/main/res/layout/activity_main.xml" value="0.17753623188405798" />
+        <entry key="..\:/ID/Android/FDGC_Projects/GC9KT3A/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2890625" />
       </map>
     </option>
   </component>

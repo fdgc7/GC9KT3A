@@ -5,7 +5,6 @@ import android.location.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.fdanielgarcia.gc9kt3a.R
 
 class MainActivity : AppCompatActivity(), LocationListener {
     val TIEMPO_MIN = (10 * 1000).toLong() // 10 segundos
