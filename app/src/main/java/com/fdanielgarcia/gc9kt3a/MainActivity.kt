@@ -2,25 +2,24 @@ package com.fdanielgarcia.gc9kt3a
 
 import android.content.Context
 import android.location.*
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity(), LocationListener {
-    val TIEMPO_MIN = (10 * 1000).toLong() // 10 segundos
-    val DISTANCIA_MIN = 5.0F // 5 metros
     val A = arrayOf("n/d", "preciso", "impreciso")
     val P = arrayOf("n/d", "bajo", "medio", "alto")
     val E = arrayOf("fuera de servicio", "temporalmente no disponible","disponible")
-    lateinit var manejador: LocationManager
-    lateinit var proveedor: String
-    lateinit var salida: TextView
+    lateinit var locationManager: LocationManager
+    lateinit var locationProvider: String
+    lateinit var output: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        salida = findViewById(R.id.salida)
-        manejador = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        output = findViewById(R.id.salida)
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         muestraProveedores()
         val criterio = Criteria().apply {
             isCostAllowed = false
@@ -28,22 +27,22 @@ class MainActivity : AppCompatActivity(), LocationListener {
             accuracy = Criteria.ACCURACY_FINE
         }
 
-        val nullableProveedor = manejador.getBestProvider(criterio, true)
-        proveedor = nullableProveedor ?: ""
+        val nullableProveedor = locationManager.getBestProvider(criterio, true)
+        locationProvider = nullableProveedor ?: ""
 
-        log("Mejor proveedor: $proveedor\n")
+        log("Mejor proveedor: $locationProvider\n")
         log("Comenzamos con la última localización conocida:")
-        muestraLocaliz(manejador.getLastKnownLocation(proveedor))
+        muestraLocaliz(locationManager.getLastKnownLocation(locationProvider))
     }
 
     override fun onResume() {
         super.onResume()
-        manejador.requestLocationUpdates(proveedor, TIEMPO_MIN, DISTANCIA_MIN,this)
+        locationManager.requestLocationUpdates(locationProvider, (application as Application).REFRESH_MIN_TIME, (application as Application).REFRESH_MIN_DISTANCE,this)
     }
 
     override fun onPause() {
         super.onPause()
-        manejador.removeUpdates(this)
+        locationManager.removeUpdates(this)
     }
 
     // Métodos de la interfaz LocationListener
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     // Métodos para mostrar información
-    private fun log(cadena: String) = salida.append(cadena + "\n")
+    private fun log(cadena: String) = output.append(cadena + "\n")
 
     private fun muestraLocaliz(localizacion: Location?) {
         if (localizacion == null)
@@ -77,20 +76,20 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     private fun muestraProveedores() {
         log("Proveedores de localización: \n ")
-        val proveedores = manejador.getAllProviders()
+        val proveedores = locationManager.getAllProviders()
         for (proveedor in proveedores) {
             muestraProveedor(proveedor)
         }
     }
 
     private fun muestraProveedor(proveedor: String) {
-        val location_provider: LocationProvider? = manejador.getProvider(proveedor)
+        val location_provider: LocationProvider? = locationManager.getProvider(proveedor)
 
         if (location_provider != null) {
             with(location_provider) {
                 log(
                     "LocationProvider[ " + "getName= $name, isProviderEnabled" +
-                            "=${manejador.isProviderEnabled(proveedor)}, " +
+                            "=${locationManager.isProviderEnabled(proveedor)}, " +
                             "getAccuracy=${A[Math.max(0, accuracy)]}, " +
                             "getPowerRequirement=${P[Math.max(0, powerRequirement)]}, " +
                             "hasMonetaryCost=${hasMonetaryCost()}, " +
