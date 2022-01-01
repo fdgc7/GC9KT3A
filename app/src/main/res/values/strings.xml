@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">GC9KT3A</string>
+    <string name="permission_request">Permission Request</string>
+    <string name="location_permission_justification">Location permission is needed to find the geocache</string>
+    <string name="unknown_location">Unknown location</string>
 </resources>

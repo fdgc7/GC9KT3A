@@ -1,106 +1,158 @@
 package com.fdanielgarcia.gc9kt3a
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
-import android.location.*
+import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.location.Criteria
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
 class MainActivity : AppCompatActivity(), LocationListener {
-    val A = arrayOf("n/d", "preciso", "impreciso")
-    val P = arrayOf("n/d", "bajo", "medio", "alto")
-    val E = arrayOf("fuera de servicio", "temporalmente no disponible","disponible")
+    val LOCATION_REQUEST_CODE = 0
     lateinit var locationManager: LocationManager
     lateinit var locationProvider: String
     lateinit var output: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
-        output = findViewById(R.id.salida)
+        output = findViewById(R.id.output)
+
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        muestraProveedores()
-        val criterio = Criteria().apply {
+        val criteria = Criteria().apply {
             isCostAllowed = false
             isAltitudeRequired = true
             accuracy = Criteria.ACCURACY_FINE
         }
+        locationProvider = locationManager.getBestProvider(criteria, true) ?: ""
 
-        val nullableProveedor = locationManager.getBestProvider(criterio, true)
-        locationProvider = nullableProveedor ?: ""
-
-        log("Mejor proveedor: $locationProvider\n")
-        log("Comenzamos con la última localización conocida:")
-        muestraLocaliz(locationManager.getLastKnownLocation(locationProvider))
+        lastLocation()
     }
 
     override fun onResume() {
         super.onResume()
-        locationManager.requestLocationUpdates(locationProvider, (application as Application).REFRESH_MIN_TIME, (application as Application).REFRESH_MIN_DISTANCE,this)
+        enableLocationUpdates()
     }
 
     override fun onPause() {
         super.onPause()
-        locationManager.removeUpdates(this)
+        disableLocationUpdates()
     }
 
-    // Métodos de la interfaz LocationListener
+
+    // LocationListener management
     override fun onLocationChanged(location: Location) {
-        log("Nueva localización: ")
-        muestraLocaliz(location)
-    }
-
-    override fun onProviderDisabled(proveedor: String) {
-        log("Proveedor deshabilitado: $proveedor\n")
+        managementLocation(location)
     }
 
     override fun onProviderEnabled(proveedor: String) {
-        log("Proveedor habilitado: $proveedor\n")
+        enableLocationUpdates()
     }
 
-    override fun onStatusChanged(proveedor: String, estado: Int,
-                                 extras: Bundle) {
-        log("Cambia estado proveedor: $proveedor, estado=" + " ${E[Math.max(0, estado)]}, extras= $extras\n")
+    override fun onProviderDisabled(proveedor: String) {
+        enableLocationUpdates()
     }
 
-    // Métodos para mostrar información
-    private fun log(cadena: String) = output.append(cadena + "\n")
-
-    private fun muestraLocaliz(localizacion: Location?) {
-        if (localizacion == null)
-            log("Localización desconocida\n")
-        else
-            log(localizacion!!.toString() + "\n")
+    override fun onStatusChanged(
+        proveedor: String, estado: Int,
+        extras: Bundle
+    ) {
+        enableLocationUpdates()
     }
 
-    private fun muestraProveedores() {
-        log("Proveedores de localización: \n ")
-        val proveedores = locationManager.getAllProviders()
-        for (proveedor in proveedores) {
-            muestraProveedor(proveedor)
+
+    // Permissions management
+    fun requestPermission(permission: String, justification: String, requestCode: Int) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+            AlertDialog.Builder(this)
+                .setTitle(this.resources?.getString(R.string.permission_request))
+                .setMessage(justification)
+                .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, whichButton ->
+                    ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
+                }).show()
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
         }
     }
 
-    private fun muestraProveedor(proveedor: String) {
-        val location_provider: LocationProvider? = locationManager.getProvider(proveedor)
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (location_provider != null) {
-            with(location_provider) {
-                log(
-                    "LocationProvider[ " + "getName= $name, isProviderEnabled" +
-                            "=${locationManager.isProviderEnabled(proveedor)}, " +
-                            "getAccuracy=${A[Math.max(0, accuracy)]}, " +
-                            "getPowerRequirement=${P[Math.max(0, powerRequirement)]}, " +
-                            "hasMonetaryCost=${hasMonetaryCost()}, " +
-                            "requiresCell=${requiresCell()}, " +
-                            "requiresNetwork=${requiresNetwork()}, " +
-                            "requiresSatellite=${requiresSatellite()}, " +
-                            "supportsAltitude=${supportsAltitude()}, " +
-                            "supportsBearing=${supportsBearing()}, " +
-                            "supportsSpeed=${supportsSpeed()} ]\n"
-                )
-            }
+        if (requestCode == LOCATION_REQUEST_CODE
+            && grantResults.size == 1
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        )
+            LocationPermissionGranted()
+    }
+
+    private fun checkLocationPermission() =
+        (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
+
+    private fun LocationPermissionGranted() {
+        lastLocation()
+        enableLocationUpdates()
+    }
+
+
+    // Location management
+    private fun lastLocation() {
+        if (checkLocationPermission()) {
+            managementLocation(locationManager.getLastKnownLocation(locationProvider))
+        } else {
+            requestPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                this.resources.getString(R.string.location_permission_justification),
+                LOCATION_REQUEST_CODE
+            )
         }
     }
+
+    private fun enableLocationUpdates() {
+        if (checkLocationPermission()) {
+            locationManager.requestLocationUpdates(
+                locationProvider,
+                (application as GCApplication).REFRESH_MIN_TIME,
+                (application as GCApplication).REFRESH_MIN_DISTANCE,
+                this
+            )
+        } else {
+            requestPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                this.resources.getString(R.string.location_permission_justification),
+                LOCATION_REQUEST_CODE
+            )
+        }
+    }
+
+    private fun disableLocationUpdates() {
+        locationManager.removeUpdates(this)
+    }
+
+    private fun managementLocation(location: Location?) {
+        if (location == null)
+            output.text = this.resources?.getString(R.string.unknown_location)
+        else {
+            (application as GCApplication).currentPosition.latitude = location.latitude
+            (application as GCApplication).currentPosition.longitude = location.longitude
+
+            output.text =
+                (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition)
+                    .toString() + " m"
+        }
+    }
+
 }

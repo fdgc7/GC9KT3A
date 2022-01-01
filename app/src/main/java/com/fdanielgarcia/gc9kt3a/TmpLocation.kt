@@ -13,22 +13,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.mislugares.presentation.Aplicacion
 
-class Location(val actividad: Activity,
-               val codigoPermiso: Int) : LocationListener {
-    val TAG = "MisLugares"
-    val manejadorLoc = actividad.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
-    var mejorLoc: Location? = null
-    val adaptador = (actividad.application as Aplicacion).adaptador
-    val DOS_MINUTOS:Long = (2 * 60 * 1000)
+class TmpLocation(val activity: Activity) : LocationListener {
+    //val locationManager = activity.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+    //var mejorLoc: Location? = null
+    //val adaptador = (activity.application as Aplicacion).adaptador
+    //val DOS_MINUTOS:Long = (2 * 60 * 1000)
 
-    init {
-        ultimaLocalizazion()
-    }
+//    init {
+//        ultimaLocalizazion()
+//    }
 
-    fun hayPermisoLocalizacion() = (ActivityCompat.checkSelfPermission(actividad, Manifest.permission.ACCESS_FINE_LOCATION)
-                                    == PackageManager.PERMISSION_GRANTED)
+//    fun hayPermisoLocalizacion() = (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+//                                    == PackageManager.PERMISSION_GRANTED)
 
-    @SuppressLint("MissingPermission")
+    /*@SuppressLint("MissingPermission")
     fun ultimaLocalizazion() {
         if (hayPermisoLocalizacion()) {
             if (manejadorLoc.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -40,17 +38,17 @@ class Location(val actividad: Activity,
         } else {
             MainActivity.solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION,
                 "Sin el permiso localización no puedo mostrar la distancia" +
-                          " a los lugares.", codigoPermiso, actividad)
+                          " a los lugares.", codigoPermiso, activity)
         }
-    }
+    }*/
 
-    fun permisoConcedido() {
+    /*fun permisoConcedido() {
         ultimaLocalizazion()
         activarProveedores()
-        adaptador.notifyDataSetChanged()
-    }
+        //adaptador.notifyDataSetChanged()
+    }*/
 
-    @SuppressLint("MissingPermission")
+    /*@SuppressLint("MissingPermission")
     private fun activarProveedores() {
         if (hayPermisoLocalizacion()) {
             if (manejadorLoc.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -62,44 +60,44 @@ class Location(val actividad: Activity,
         } else {
             MainActivity.solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION,
                 "Sin el permiso localización no puedo mostrar la distancia" +
-                          " a los lugares.", codigoPermiso, actividad )
+                          " a los lugares.", codigoPermiso, activity )
         }
-    }
+    }*/
 
-    override fun onLocationChanged(location: Location) {
+    /*override fun onLocationChanged(location: Location) {
         Log.d(TAG, "Nueva localización: $location")
         actualizaMejorLocaliz(location)
         adaptador.notifyDataSetChanged()
-    }
-    override fun onProviderDisabled(proveedor: String) {
+    }*/
+    /*override fun onProviderDisabled(proveedor: String) {
         Log.d(TAG, "Se deshabilita: $proveedor")
         activarProveedores()
     }
     override fun onProviderEnabled(proveedor: String) {
         Log.d(TAG, "Se habilita: $proveedor")
         activarProveedores()
-    }
-    override fun onStatusChanged(proveedor:String, estado:Int, extras: Bundle){
+    }*/
+    /*override fun onStatusChanged(proveedor:String, estado:Int, extras: Bundle){
         Log.d(TAG, "Cambia estado: $proveedor")
         activarProveedores()
-    }
+    }*/
 
-    private fun actualizaMejorLocaliz(loc: Location?) {
+    /*private fun actualizaMejorLocaliz(loc: Location?) {
         if (loc != null && (mejorLoc == null
                     || loc.accuracy < 2 * mejorLoc!!.getAccuracy()
                     || loc.time - mejorLoc!!.getTime() > DOS_MINUTOS)) {
             Log.d(TAG, "Nueva mejor localización")
             mejorLoc = loc
-            (actividad.application as Aplicacion).posicionActual.latitud = loc.latitude
-            (actividad.application as Aplicacion).posicionActual.longitud = loc.longitude
+            (activity.application as Aplicacion).posicionActual.latitud = loc.latitude
+            (activity.application as Aplicacion).posicionActual.longitud = loc.longitude
         }
-    }
+    }*/
 
-    fun activar() {
+   /* fun activar() {
         if (hayPermisoLocalizacion()) activarProveedores()
     }
 
     fun desactivar() {
         if (hayPermisoLocalizacion()) manejadorLoc.removeUpdates(this)
-    }
+    }*/
 }

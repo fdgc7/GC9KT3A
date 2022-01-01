@@ -25,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import java.lang.Integer.parseInt
 
 class TmpActivity : AppCompatActivity() {
-
+/*
     private lateinit var binding: ActivityMainBinding
     val lugares by lazy { (application as Aplicacion).lugares }
     val adaptador by lazy { (application as Aplicacion).adaptador }
@@ -50,7 +50,8 @@ class TmpActivity : AppCompatActivity() {
             }
         }
     }
-
+*/
+    /*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -77,17 +78,17 @@ class TmpActivity : AppCompatActivity() {
             adapter = adaptador
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        usoLocalizacion.activar()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        usoLocalizacion.desactivar()
-    }
-
+*/
+//    override fun onResume() {
+//        super.onResume()
+//        usoLocalizacion.activar()
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        usoLocalizacion.desactivar()
+//    }
+/*
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_scrolling, menu)
@@ -115,16 +116,16 @@ class TmpActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+*/
+//    override fun onRequestPermissionsResult(requestCode: Int,
+//                                            permissions: Array<String>, grantResults: IntArray ) {
+//        if (requestCode == SOLICITUD_PERMISO_LOCALIZACION
+//            && grantResults.size == 1
+//            && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//            usoLocalizacion.permisoConcedido()
+//    }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray ) {
-        if (requestCode == SOLICITUD_PERMISO_LOCALIZACION
-            && grantResults.size == 1
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            usoLocalizacion.permisoConcedido()
-    }
-
-    private fun lanzarPreferencias(view: View? = null) {
+    /*private fun lanzarPreferencias(view: View? = null) {
         val i = Intent(this, PreferenciasActivity::class.java)
         startActivity(i)
     }
@@ -136,9 +137,9 @@ class TmpActivity : AppCompatActivity() {
                 ", Maximo: " + pref.getString("maximo", "?") + ", Orden: " +
                 pref.getString("orden", "?")
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
-    }
+    }*/
 
-    fun lanzarVistaLugar(view: View? = null) {
+    /*fun lanzarVistaLugar(view: View? = null) {
         val entrada = EditText(this)
         entrada.setText("0")
         AlertDialog.Builder(this)
@@ -151,5 +152,5 @@ class TmpActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancelar", null)
             .show()
-    }
+    }*/
 }

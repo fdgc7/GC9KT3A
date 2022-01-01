@@ -1,15 +1,15 @@
 package com.fdanielgarcia.gc9kt3a
 
-data class GeoPoint(var longitude: Double, var latitude: Double) {
+data class GeoPoint(var latitude: Double, var longitude: Double) {
     companion object {
         val NO_POSITION = GeoPoint(0.0,0.0)
     }
 
-    fun distance(punto: GeoPoint): Double {
+    fun distance(point: GeoPoint): Double {
         val EARTH_RADIO = 6371000.0 // en metros
-        val dLat = Math.toRadians(latitude - punto.latitude)
-        val dLon = Math.toRadians(longitude - punto.longitude)
-        val lat1 = Math.toRadians(punto.latitude)
+        val dLat = Math.toRadians(latitude - point.latitude)
+        val dLon = Math.toRadians(longitude - point.longitude)
+        val lat1 = Math.toRadians(point.latitude)
         val lat2 = Math.toRadians(latitude)
         val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.sin(dLon / 2) * Math.sin(dLon / 2) *
