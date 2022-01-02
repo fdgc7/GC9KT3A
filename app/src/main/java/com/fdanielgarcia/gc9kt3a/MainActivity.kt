@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -151,7 +150,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
             (application as GCApplication).currentPosition.longitude = location.longitude
 
             output.setTextAppearance(R.style.TextAppearance_AppCompat_Display1)
-            output.text = (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition).roundToInt().toString() + " m"
+            output.text =
+                (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition)
+                    .roundToInt().toString() + " m"
         }
     }
 }
