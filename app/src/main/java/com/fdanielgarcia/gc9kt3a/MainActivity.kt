@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     // LocationListener management
     override fun onLocationChanged(location: Location) {
-        managementLocation(location)
+        manageLocation(location)
     }
 
     override fun onProviderEnabled(proveedor: String) {
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     // Location management
     private fun lastLocation() {
         if (checkLocationPermission()) {
-            managementLocation(locationManager.getLastKnownLocation(locationProvider))
+            manageLocation(locationManager.getLastKnownLocation(locationProvider))
         } else {
             requestPermission(
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -125,8 +125,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
         if (checkLocationPermission()) {
             locationManager.requestLocationUpdates(
                 locationProvider,
-                (application as GCApplication).REFRESH_MIN_TIME,
-                (application as GCApplication).REFRESH_MIN_DISTANCE,
+                (application as GCApplication).UPDATE_MIN_TIME,
+                (application as GCApplication).UPDATE_MIN_DISTANCE,
                 this
             )
         } else {
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         locationManager.removeUpdates(this)
     }
 
-    private fun managementLocation(location: Location?) {
+    private fun manageLocation(location: Location?) {
         if (location == null)
             output.text = this.resources?.getString(R.string.unknown_location)
         else {

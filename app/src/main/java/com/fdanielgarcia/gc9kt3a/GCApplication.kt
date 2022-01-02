@@ -3,8 +3,8 @@ package com.fdanielgarcia.gc9kt3a
 import android.app.Application
 
 class GCApplication : Application() {
-    val REFRESH_MIN_TIME = (1 * 1000).toLong() // 1 second
-    val REFRESH_MIN_DISTANCE = 1.0F // 1 metre
+    val UPDATE_MIN_TIME = (1 * 1000).toLong() // 1 second
+    val UPDATE_MIN_DISTANCE = 1.0F // 1 metre
     val INITIAL_LATITUDE = 40.553333
     val INITIAL_LONGITUDE = -3.617783
     val FINAL_LATITUDE = 40.552267
