@@ -3,7 +3,6 @@ package com.fdanielgarcia.gc9kt3a
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Criteria
 import android.location.Location
@@ -16,10 +15,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 
 class MainActivity : AppCompatActivity(), LocationListener {
-    val LOCATION_REQUEST_CODE = 0
-    lateinit var locationManager: LocationManager
-    lateinit var locationProvider: String
-    lateinit var output: TextView
+    private lateinit var locationManager: LocationManager
+    private lateinit var locationProvider: String
+    private lateinit var output: TextView
+
+    companion object {
+        const val LOCATION_REQUEST_CODE = 0
+    }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,14 +73,14 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
 
     // Permissions management
-    fun requestPermission(permission: String, justification: String, requestCode: Int) {
+    private fun requestPermission(permission: String, justification: String, requestCode: Int) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
             AlertDialog.Builder(this)
                 .setTitle(this.resources?.getString(R.string.permission_request))
                 .setMessage(justification)
-                .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, whichButton ->
+                .setPositiveButton("Ok") { dialog, whichButton ->
                     ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
-                }).show()
+                }.show()
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
         }
@@ -95,14 +97,14 @@ class MainActivity : AppCompatActivity(), LocationListener {
             && grantResults.size == 1
             && grantResults[0] == PackageManager.PERMISSION_GRANTED
         )
-            LocationPermissionGranted()
+            locationPermissionGranted()
     }
 
     private fun checkLocationPermission() =
         (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED)
 
-    private fun LocationPermissionGranted() {
+    private fun locationPermissionGranted() {
         lastLocation()
         enableLocationUpdates()
     }
@@ -125,8 +127,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
         if (checkLocationPermission()) {
             locationManager.requestLocationUpdates(
                 locationProvider,
-                (application as GCApplication).UPDATE_MIN_TIME,
-                (application as GCApplication).UPDATE_MIN_DISTANCE,
+                GCApplication.UPDATE_MIN_TIME,
+                GCApplication.UPDATE_MIN_DISTANCE,
                 this
             )
         } else {
@@ -149,10 +151,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
             (application as GCApplication).currentPosition.latitude = location.latitude
             (application as GCApplication).currentPosition.longitude = location.longitude
 
-            output.text =
-                (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition)
-                    .toString() + " m"
+            val exactDistanceToFinal = (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition)
+            val roundedDistanceToFinal = String.format("%.1", exactDistanceToFinal)
+
+            output.setTextAppearance(R.style.TextAppearance_AppCompat_Display1)
+            output.text = roundedDistanceToFinal + " m"
         }
     }
-
 }

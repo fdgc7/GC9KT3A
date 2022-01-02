@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.fdanielgarcia.gc9kt3a"
-        minSdk 16
+        minSdk 23
         targetSdk 30
         versionCode 1
         versionName "1.0.0"
