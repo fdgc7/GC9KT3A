@@ -13,8 +13,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.fdanielgarcia.gc9kt3a.databinding.ActivityMainBinding
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), LocationListener {
+    private lateinit var binding: ActivityMainBinding
     private lateinit var locationManager: LocationManager
     private lateinit var locationProvider: String
     private lateinit var output: TextView
@@ -26,17 +29,13 @@ class MainActivity : AppCompatActivity(), LocationListener {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
-        output = findViewById(R.id.output)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.toolbar.title = title
+        output = binding.include.output
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val criteria = Criteria().apply {
-            isCostAllowed = false
-            isAltitudeRequired = true
-            accuracy = Criteria.ACCURACY_FINE
-        }
-        locationProvider = locationManager.getBestProvider(criteria, true) ?: ""
-
+        locationProvider = LocationManager.GPS_PROVIDER
         lastLocation()
     }
 
@@ -151,11 +150,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
             (application as GCApplication).currentPosition.latitude = location.latitude
             (application as GCApplication).currentPosition.longitude = location.longitude
 
-            val exactDistanceToFinal = (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition)
-            val roundedDistanceToFinal = String.format("%.1", exactDistanceToFinal)
-
             output.setTextAppearance(R.style.TextAppearance_AppCompat_Display1)
-            output.text = roundedDistanceToFinal + " m"
+            output.text = (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition).roundToInt().toString() + " m"
         }
     }
 }
