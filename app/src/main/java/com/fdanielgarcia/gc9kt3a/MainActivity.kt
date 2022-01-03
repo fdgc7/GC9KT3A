@@ -2,19 +2,18 @@ package com.fdanielgarcia.gc9kt3a
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.fdanielgarcia.gc9kt3a.databinding.ActivityMainBinding
-import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var binding: ActivityMainBinding
@@ -29,9 +28,18 @@ class MainActivity : AppCompatActivity(), LocationListener {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Log.d(
+            this.resources.getString(R.string.app_tag),
+            Utilities().uObfC("5D7A6D141AFF9").toString()
+        )
+        Log.d(
+            this.resources.getString(R.string.app_tag),
+            Utilities().uObfC("-BE84BE63F49").toString()
+        )
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbar.title = title
+        binding.toolbar.title = this.resources.getString(R.string.app_label)
         outputTextView = binding.include.output
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -46,7 +54,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onPause() {
         super.onPause()
-        disableLocationUpdates()
+        //disableLocationUpdates()
     }
 
 
