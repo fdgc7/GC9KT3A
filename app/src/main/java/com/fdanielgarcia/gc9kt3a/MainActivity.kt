@@ -2,6 +2,7 @@ package com.fdanielgarcia.gc9kt3a
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var locationManager: LocationManager
     private lateinit var locationProvider: String
-    private lateinit var output: TextView
+    private lateinit var outputTextView: TextView
 
     companion object {
         const val LOCATION_REQUEST_CODE = 0
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbar.title = title
-        output = binding.include.output
+        outputTextView = binding.include.output
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationProvider = LocationManager.GPS_PROVIDER
@@ -143,16 +144,14 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     private fun manageLocation(location: Location?) {
-        if (location == null)
-            output.text = this.resources?.getString(R.string.unknown_location)
-        else {
+        if (location == null) {
+            (application as GCApplication).currentPosition.latitude = 0.0
+            (application as GCApplication).currentPosition.longitude = 0.0
+        } else {
             (application as GCApplication).currentPosition.latitude = location.latitude
             (application as GCApplication).currentPosition.longitude = location.longitude
-
-            output.setTextAppearance(R.style.TextAppearance_AppCompat_Display1)
-            output.text =
-                (application as GCApplication).finalPosition.distance((application as GCApplication).currentPosition)
-                    .roundToInt().toString() + " m"
         }
+
+        OutputManagement(this,outputTextView).show()
     }
 }
