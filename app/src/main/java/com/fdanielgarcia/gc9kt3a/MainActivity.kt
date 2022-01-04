@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.fdanielgarcia.gc9kt3a.databinding.ActivityMainBinding
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var binding: ActivityMainBinding
@@ -163,20 +164,31 @@ class MainActivity : AppCompatActivity(), LocationListener {
         if (location == null) {
             (application as GCApplication).currentPosition.latitude = 0.0
             (application as GCApplication).currentPosition.longitude = 0.0
+
+            OutputManagement(this,outputTextView).show()
         } else {
-            (application as GCApplication).currentPosition.latitude = location.latitude
-            (application as GCApplication).currentPosition.longitude = location.longitude
+            if (Utilities().isLocationFromMockProvider(applicationContext, location)) {
+                AlertDialog.Builder(this)
+                    .setTitle(this.resources?.getString(R.string.do_not_cheat))
+                    .setMessage(this.resources?.getString(R.string.deactivate_mock_location))
+                    .setPositiveButton("Ok") { _, _ ->
+                        finish()
+                    }.show()
+            } else {
+                (application as GCApplication).currentPosition.latitude = location.latitude
+                (application as GCApplication).currentPosition.longitude = location.longitude
+
+                Log.d(
+                    this.resources.getString(R.string.app_tag),
+                    "CURRENT_LATITUDE: " + (application as GCApplication).currentPosition.latitude.toString()
+                )
+                Log.d(
+                    this.resources.getString(R.string.app_tag),
+                    "CURRENT_LONGITUDE: " + (application as GCApplication).currentPosition.longitude.toString()
+                )
+
+                OutputManagement(this, outputTextView).show()
+            }
         }
-
-        Log.d(
-            this.resources.getString(R.string.app_tag),
-            "CURRENT_LATITUDE: " + (application as GCApplication).currentPosition.latitude.toString()
-        )
-        Log.d(
-            this.resources.getString(R.string.app_tag),
-            "CURRENT_LONGITUDE: " + (application as GCApplication).currentPosition.longitude.toString()
-        )
-
-        OutputManagement(this,outputTextView).show()
     }
 }
