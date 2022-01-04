@@ -11,10 +11,9 @@ class GCApplication : Application() {
         const val FINAL_LATITUDE = "5D7A6D141AFF9"
         const val FINAL_LONGITUDE = "-BE84BE63F49"
         const val MIN_INITIAL_DISTANCE = 300.0F // 300 metres
+        const val MIN_COLOR_DISTANCE = 150.0F // 300 metres
         const val MIN_FINAL_DISTANCE = 5.0F // 5 metres
     }
 
-    val initialPosition = GeoPoint(INITIAL_LATITUDE, INITIAL_LONGITUDE)
-    val finalPosition = GeoPoint(Utilities().uObfC(FINAL_LATITUDE), Utilities().uObfC(FINAL_LONGITUDE))
     val currentPosition = GeoPoint.NO_POSITION
 }

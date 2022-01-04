@@ -30,11 +30,19 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         Log.d(
             this.resources.getString(R.string.app_tag),
-            Utilities().uObfC("5D7A6D141AFF9").toString()
+            "INITIAL_LATITUDE: " + GCApplication.INITIAL_LATITUDE.toString()
         )
         Log.d(
             this.resources.getString(R.string.app_tag),
-            Utilities().uObfC("-BE84BE63F49").toString()
+            "INITIAL_LONGITUDE: " + GCApplication.INITIAL_LONGITUDE.toString()
+        )
+        Log.d(
+            this.resources.getString(R.string.app_tag),
+            "FINAL_LATITUDE: " + Utilities().uObfC(GCApplication.FINAL_LATITUDE).toString()
+        )
+        Log.d(
+            this.resources.getString(R.string.app_tag),
+            "FINAL_LONGITUDE: " + Utilities().uObfC(GCApplication.FINAL_LONGITUDE).toString()
         )
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -159,6 +167,15 @@ class MainActivity : AppCompatActivity(), LocationListener {
             (application as GCApplication).currentPosition.latitude = location.latitude
             (application as GCApplication).currentPosition.longitude = location.longitude
         }
+
+        Log.d(
+            this.resources.getString(R.string.app_tag),
+            "CURRENT_LATITUDE: " + (application as GCApplication).currentPosition.latitude.toString()
+        )
+        Log.d(
+            this.resources.getString(R.string.app_tag),
+            "CURRENT_LONGITUDE: " + (application as GCApplication).currentPosition.longitude.toString()
+        )
 
         OutputManagement(this,outputTextView).show()
     }

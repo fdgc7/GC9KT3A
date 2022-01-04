@@ -5,4 +5,6 @@
     <string name="permission_request">Permission Request</string>
     <string name="location_permission_justification">Location permission is needed to find the geocache</string>
     <string name="unknown_location">Unknown location</string>
+    <string name="not_enough_initial_distance">Get closer to the initial coordinates</string>
+    <string name="near_final">Sit down on the bench, and you will find it on the left leg</string>
 </resources>
