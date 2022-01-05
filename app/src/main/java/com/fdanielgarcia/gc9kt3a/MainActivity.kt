@@ -3,24 +3,28 @@ package com.fdanielgarcia.gc9kt3a
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.fdanielgarcia.gc9kt3a.databinding.ActivityMainBinding
-import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var locationManager: LocationManager
     private lateinit var locationProvider: String
     private lateinit var outputTextView: TextView
+    private var numAbout = 0
 
     companion object {
         const val LOCATION_REQUEST_CODE = 0
@@ -48,7 +52,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbar.title = this.resources.getString(R.string.app_label)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar!!.title = this.resources.getString(R.string.app_label)
         outputTextView = binding.include.output
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -56,14 +61,44 @@ class MainActivity : AppCompatActivity(), LocationListener {
         lastLocation()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_about -> {
+                numAbout ++
+                if (numAbout < GCApplication.MAX_NUM_ABOUT) {
+                    AlertDialog.Builder(this)
+                        .setTitle(
+                            this.resources?.getString(R.string.app_label) + " (" + this.resources?.getString(
+                                R.string.app_name
+                            ) + ")"
+                        )
+                        .setMessage(AppInformation(this).showVersion())
+                        .show()
+                } else {
+                    val lat = Utilities().uObfC(GCApplication.FINAL_LATITUDE).toString()
+                    val lon = Utilities().uObfC(GCApplication.FINAL_LONGITUDE).toString()
+                    val pin = this.resources?.getString(R.string.app_name)
+                    val uri = Uri.parse("geo:0,0?q=$lat,$lon($pin)")
+                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         enableLocationUpdates()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //disableLocationUpdates()
     }
 
 
@@ -171,9 +206,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 AlertDialog.Builder(this)
                     .setTitle(this.resources?.getString(R.string.do_not_cheat))
                     .setMessage(this.resources?.getString(R.string.deactivate_mock_location))
-                    .setPositiveButton("Ok") { _, _ ->
-                        finish()
-                    }.show()
+                    .setPositiveButton("Ok") { _, _ -> finish() }.show()
             } else {
                 (application as GCApplication).currentPosition.latitude = location.latitude
                 (application as GCApplication).currentPosition.longitude = location.longitude

@@ -9,4 +9,6 @@
     <string name="near_final">Sit down on the bench, and you will find it on the left leg</string>
     <string name="do_not_cheat">Do not cheat!</string>
     <string name="deactivate_mock_location">Please, deactivate Mock Location.</string>
+    <string name="action_about">About</string>
+    <string name="material_design_resources_license">It uses Google Material Design resources</string>
 </resources>

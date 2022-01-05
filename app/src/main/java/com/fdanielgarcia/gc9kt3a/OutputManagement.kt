@@ -24,7 +24,6 @@ class OutputManagement(val activity: Activity, val outputTextView: TextView) {
                 if (distanceToFinal <= GCApplication.MIN_FINAL_DISTANCE) {
                     outputTextView.text = activity.resources?.getString(R.string.near_final)
                 } else {
-                    //outputTextView.setTextAppearance(R.style.TextAppearance_AppCompat_Display1)
                     if (distanceToFinal <= GCApplication.MIN_COLOR_DISTANCE) {
                         outputTextView.setTextColor(
                             Color.parseColor(

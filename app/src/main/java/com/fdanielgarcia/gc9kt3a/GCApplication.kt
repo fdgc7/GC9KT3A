@@ -13,6 +13,7 @@ class GCApplication : Application() {
         const val MIN_INITIAL_DISTANCE = 300.0F // 300 metres
         const val MIN_COLOR_DISTANCE = 150.0F // 300 metres
         const val MIN_FINAL_DISTANCE = 5.0F // 5 metres
+        const val MAX_NUM_ABOUT = 7
     }
 
     val currentPosition = GeoPoint.NO_POSITION
