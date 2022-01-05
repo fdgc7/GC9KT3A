@@ -33,22 +33,22 @@ class MainActivity : AppCompatActivity(), LocationListener {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d(
-            this.resources.getString(R.string.app_tag),
-            "INITIAL_LATITUDE: " + GCApplication.INITIAL_LATITUDE.toString()
-        )
-        Log.d(
-            this.resources.getString(R.string.app_tag),
-            "INITIAL_LONGITUDE: " + GCApplication.INITIAL_LONGITUDE.toString()
-        )
-        Log.d(
-            this.resources.getString(R.string.app_tag),
-            "FINAL_LATITUDE: " + Utilities().uObfC(GCApplication.FINAL_LATITUDE).toString()
-        )
-        Log.d(
-            this.resources.getString(R.string.app_tag),
-            "FINAL_LONGITUDE: " + Utilities().uObfC(GCApplication.FINAL_LONGITUDE).toString()
-        )
+//        Log.d(
+//            this.resources.getString(R.string.app_tag),
+//            "INITIAL_LATITUDE: " + GCApplication.INITIAL_LATITUDE.toString()
+//        )
+//        Log.d(
+//            this.resources.getString(R.string.app_tag),
+//            "INITIAL_LONGITUDE: " + GCApplication.INITIAL_LONGITUDE.toString()
+//        )
+//        Log.d(
+//            this.resources.getString(R.string.app_tag),
+//            "FINAL_LATITUDE: " + Utilities().uObfC(GCApplication.FINAL_LATITUDE).toString()
+//        )
+//        Log.d(
+//            this.resources.getString(R.string.app_tag),
+//            "FINAL_LONGITUDE: " + Utilities().uObfC(GCApplication.FINAL_LONGITUDE).toString()
+//        )
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -211,14 +211,14 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 (application as GCApplication).currentPosition.latitude = location.latitude
                 (application as GCApplication).currentPosition.longitude = location.longitude
 
-                Log.d(
-                    this.resources.getString(R.string.app_tag),
-                    "CURRENT_LATITUDE: " + (application as GCApplication).currentPosition.latitude.toString()
-                )
-                Log.d(
-                    this.resources.getString(R.string.app_tag),
-                    "CURRENT_LONGITUDE: " + (application as GCApplication).currentPosition.longitude.toString()
-                )
+//                Log.d(
+//                    this.resources.getString(R.string.app_tag),
+//                    "CURRENT_LATITUDE: " + (application as GCApplication).currentPosition.latitude.toString()
+//                )
+//                Log.d(
+//                    this.resources.getString(R.string.app_tag),
+//                    "CURRENT_LONGITUDE: " + (application as GCApplication).currentPosition.longitude.toString()
+//                )
 
                 OutputManagement(this, outputTextView).show()
             }

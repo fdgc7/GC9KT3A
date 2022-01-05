@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GC9KT3A</string>
+    <string name="app_label">Mobile Reverse Geocache</string>
+    <string name="app_tag">GC9KT3A_tag</string>
+    <string name="permission_request">Petición de Permiso</string>
+    <string name="location_permission_justification">Permiso de ubicación necesario para encontrar el geocache</string>
+    <string name="unknown_location">Ubicación desconocida</string>
+    <string name="not_enough_initial_distance">Acércate a las coordenadas iniciales</string>
+    <string name="near_final">Siéntate en el banco y lo encontrarás en la pata izquierda</string>
+    <string name="do_not_cheat">¡No hagas trampas!</string>
+    <string name="deactivate_mock_location">Por favor, desactiva la simulación de ubicación.</string>
+    <string name="action_about">Acerca de</string>
+    <string name="material_design_resources_license">Se usan recursos de Google Material Design</string>
+</resources>

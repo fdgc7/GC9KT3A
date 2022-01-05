@@ -16,8 +16,8 @@ class Utilities {
 
         val hexColor = "#" + hexRed + "00" + hexBlue
 
-        Log.d("GC9KT3A_tag","Distance: " + scaleStep.toString())
-        Log.d("GC9KT3A_tag","Color: " + hexColor)
+//        Log.d("GC9KT3A_tag","Distance: " + scaleStep.toString())
+//        Log.d("GC9KT3A_tag","Color: " + hexColor)
 
         return hexColor
     }
