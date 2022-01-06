@@ -12,4 +12,6 @@
     <string name="deactivate_mock_location">Por favor, desactiva la simulación de ubicación.</string>
     <string name="action_about">Acerca de</string>
     <string name="material_design_resources_license">Se usan recursos de Google Material Design</string>
+    <string name="geologo_license">Se usa la variante Leatherman del logo de dominio público de geocaching</string>
+    <string name="privacy_policy">Política de privacidad disponible en https://sites.google.com/view/politica-privacidad-gc9kt3a/home</string>
 </resources>

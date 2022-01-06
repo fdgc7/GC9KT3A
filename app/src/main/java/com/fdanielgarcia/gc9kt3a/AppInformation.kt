@@ -10,7 +10,11 @@ class AppInformation(val activity: Activity) {
                 "\n" +
                 "\n" +
                 "\n" +
-                activity.getString(R.string.material_design_resources_license)
+                activity.getString(R.string.material_design_resources_license) + "\n" +
+                "\n" +
+                activity.getString(R.string.geologo_license) + "\n" +
+                "\n" +
+                activity.getString(R.string.privacy_policy)
         return message
     }
 }
