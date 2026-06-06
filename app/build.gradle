@@ -1,27 +1,27 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android' // Changed from 'kotlin-android'
 }
 
 android {
-    compileSdk 30
+    namespace 'com.fdanielgarcia.gc9kt3a'
+    compileSdk 34 // Keep this if you chose Option 1
 
     defaultConfig {
         applicationId "com.fdanielgarcia.gc9kt3a"
-        minSdk 23
-        targetSdk 30
-        versionCode 6
-        versionName "1.0.5"
-
+        minSdk 30
+        targetSdk 34
+        versionCode 7
+        versionName "1.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Modern way to rename APKs in AGP 8.0+
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             def appName = "GC9KT3A"
-            def date = new Date()
-            def formattedDate = date.format('yyyy-MM-dd')
-            outputFileName = appName + "-${variant.versionName}-${variant.versionCode}_" + formattedDate + ".apk"
+            def date = new Date().format('yyyy-MM-dd')
+            outputFileName = "${appName}-${variant.versionName}-${variant.versionCode}_${date}.apk"
         }
     }
 
@@ -32,24 +32,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
+    namespace 'com.fdanielgarcia.gc9kt3a'
 }
 
 dependencies {
-
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
