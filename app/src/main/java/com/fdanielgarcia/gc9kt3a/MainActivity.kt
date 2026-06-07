@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationProvider = LocationManager.GPS_PROVIDER
-        lastLocation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -98,7 +97,15 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onResume() {
         super.onResume()
-        enableLocationUpdates()
+        if (checkLocationPermission()) {
+            locationPermissionGranted()
+        } else {
+            requestPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                this.resources.getString(R.string.location_permission_justification),
+                LOCATION_REQUEST_CODE
+            )
+        }
     }
 
 

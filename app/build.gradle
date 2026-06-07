@@ -5,24 +5,27 @@ plugins {
 
 android {
     namespace 'com.fdanielgarcia.gc9kt3a'
-    compileSdk 34 // Keep this if you chose Option 1
+    testNamespace 'com.fdanielgarcia.gc9kt3a.test'
+    compileSdk 35 // Keep this if you chose Option 1
 
     defaultConfig {
         applicationId "com.fdanielgarcia.gc9kt3a"
         minSdk 30
-        targetSdk 34
+        targetSdk 35
         versionCode 7
-        versionName "1.1.0"
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // Modern way to rename APKs in AGP 8.0+
-    android.applicationVariants.all { variant ->
-        variant.outputs.all {
-            def appName = "GC9KT3A"
-            def date = new Date().format('yyyy-MM-dd')
-            outputFileName = "${appName}-${variant.versionName}-${variant.versionCode}_${date}.apk"
-        }
+    androidComponents {
+        onVariants(selector().all(), { variant ->
+            variant.outputs.forEach { output ->
+                def appName = "GC9KT3A"
+                def date = new Date().format('yyyy-MM-dd')
+                output.outputFileName.set("${appName}-${variant.name}-${date}.apk")
+            }
+        })
     }
 
     buildTypes {
@@ -42,7 +45,6 @@ android {
         viewBinding true
         buildConfig = true
     }
-    namespace 'com.fdanielgarcia.gc9kt3a'
 }
 
 dependencies {
