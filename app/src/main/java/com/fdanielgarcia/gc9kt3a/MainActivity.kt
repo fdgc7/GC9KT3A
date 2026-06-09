@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.WindowCompat
 import com.fdanielgarcia.gc9kt3a.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         super.onCreate(savedInstanceState)
 
 //        Log.d(

@@ -17,6 +17,7 @@
     <style name="Theme.GC9KT3A.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
     </style>
 
     <style name="Theme.GC9KT3A.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.GC9KT3A.NoActionBar" parent="Theme.GC9KT3A">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+</resources>

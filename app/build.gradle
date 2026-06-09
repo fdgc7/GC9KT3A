@@ -13,7 +13,7 @@ android {
         minSdk 30
         targetSdk 35
         versionCode 7
-        versionName "1.2.0"
+        versionName "1.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -23,7 +23,9 @@ android {
             variant.outputs.forEach { output ->
                 def appName = "GC9KT3A"
                 def date = new Date().format('yyyy-MM-dd')
-                output.outputFileName.set("${appName}-${variant.name}-${date}.apk")
+                def versionName = android.defaultConfig.versionName
+                def versionCode = android.defaultConfig.versionCode
+                output.outputFileName.set("${appName}-${versionName}-${versionCode}_${date}.apk")
             }
         })
     }
