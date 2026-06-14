@@ -6,7 +6,7 @@ plugins {
 android {
     namespace 'com.fdanielgarcia.gc9kt3a'
     testNamespace 'com.fdanielgarcia.gc9kt3a.test'
-    compileSdk 35 // Keep this if you chose Option 1
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.fdanielgarcia.gc9kt3a"
